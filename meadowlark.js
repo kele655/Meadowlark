@@ -1,5 +1,5 @@
 var express = require("express");
-var fortune = require('./lib/fortune.js's);
+var fortune = require('./lib/fortune.js');
 var app = express();
 
 var handlebars = require("express-handlebars");
