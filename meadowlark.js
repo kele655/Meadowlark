@@ -5,6 +5,7 @@ var app = express();
 var handlebars = require("express-handlebars");
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+app.disable('x-powered-by');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -26,6 +27,13 @@ app.get('/about', function(req, res){
     });
 });
 
+app.get('/headers', function(req, res){
+   res.set('Conten-Type', 'text/plain');
+   var s = '';
+   for (var name in req.headers) s += name + ': ' + req.headers[name] + '<br/>';
+   res.send(s);
+});
+
 app.get('/tours/hood-river', function(req, res) {
     res.render('tours/hood-river');
 });
@@ -36,7 +44,23 @@ app.get('/tours/oregon-coast', function(req, res) {
 
 app.get('/tours/request-group-rate', function(req, res) {
     res.render('tours/request-group-rate');
-})
+});
+
+
+// //Just a test
+// app.post('process-contact', function(req, res){
+//   console.log('Received contact form ' + req.body.name + ' < ' + req.body.email + ' > ');
+//   try{
+//       return res.xhr ?
+//                 res.json({success:true});
+//                 res.redirect(303, '/thank-you');
+//   }
+//   catch(ex){
+//       return res.xhr ?
+//                 res.json({error 'Databse-error.'});
+//                 res.redirect(303, '/database-error');
+//   }
+// });
 
 app.use(function(req, res, next){
     res.status(404);
